@@ -43,10 +43,20 @@ def test_bad_graph():
 
 
 def test_starts_with_zero():
-    all_formats(false_path, "0, 1")
+    all_formats(false_path, "0,1")
+
 
 def test_only_zero():
     all_formats(true_path, "0")
+
+
+# JSON format does not allow leading zeros
+def test_leading_zeros():
+    s = "1,01,10"
+    true_path(s)
+    true_path(to_tsv(s))
+    with pytest.raises(ValueError):
+        WearyGraph(to_json_str(s))
 
 
 def test_empty_string():
@@ -85,12 +95,17 @@ def test_throws_end_with_delim():
     all_throws("1,")
 
 
+def test_throws_start_with_delim():
+    all_throws(",1")
+
+
 def test_throws_negative_number():
     all_throws("1,-2")
 
-def test_throws_nan():
+
+def test_throws_bad_character():
     all_throws("1, a")
 
-def test_throws_no_delim():
-    all_throws("1 a")
 
+def test_throws_no_delim():
+    all_throws("1 2")

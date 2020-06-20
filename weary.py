@@ -17,7 +17,8 @@ def parse_xsv(s, delim):
 
 
 def construct_list_regex(start, delim, end):
-    return r"^" + start + "((\d)+(" + delim + "\d+)*)?" + end + "$"
+    # regex represents a delim-separated list with numbers (and spaces)
+    return r"^" + start + "(\s*(\d+)\s*(" + delim + "\s*\d+\s*)*)?" + end + "$"
 
 
 TSV_REGEX = construct_list_regex("", "\t", "")
@@ -29,7 +30,7 @@ def parse_to_graph(s):
 
     graph = None
 
-    rx = re.compile('([\n\r ])')
+    rx = re.compile('([\n\r])')
     stripped = rx.sub('', s)
 
     if re.search(TSV_REGEX, stripped) is not None:
