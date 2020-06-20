@@ -1,6 +1,7 @@
 from weary import WearyGraph
 import click
 
+
 @click.command()
 @click.option('-f', '--file', 'path', type=str, help='input file (takes precedence over input string)')
 @click.option('-i', '--input', 'input', type=str, help='input string')
