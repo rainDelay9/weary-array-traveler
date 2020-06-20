@@ -44,9 +44,9 @@ def parse_to_graph(s):
 
 
 class WearyGraph:
-    def __init__(self, str):
+    def __init__(self, arr_str):
 
-        self.graph = parse_to_graph(str)
+        self.graph = parse_to_graph(arr_str)
 
         if self.graph is None:
             raise ValueError
@@ -69,10 +69,9 @@ class WearyGraph:
         while len(stack) != 0:
             location = stack.pop()
             visited.add(location)
-            step = self.graph[location]
 
-            forward = location + step
-            backward = location - step
+            forward = location + self.graph[location]
+            backward = location - self.graph[location]
 
             # will we reach the end if we move forward?
             if forward == size - 1:

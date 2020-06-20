@@ -50,3 +50,9 @@ def test_no_options_provided():
     result = runner.invoke(find_path, [])
     assert 'Error! Please add an option!' in result.output
     assert result.exit_code == 1
+
+def test_formatting_error():
+    runner = CliRunner()
+    result = runner.invoke(find_path, ['--input', '4, a4, 1, 1, 2, 2, 1000, 1'])
+    assert 'Formatting Error' in result.output
+    assert result.exit_code == 1
