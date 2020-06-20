@@ -5,8 +5,10 @@ import click
 @click.option('-f', '--file', 'path', type=str, help='input file (takes precedence over input string)')
 @click.option('-i', '--input', 'input', type=str, help='input string')
 def find_path(path, input):
+    """This script checks whether there's a path from start to finish in a weary array traveler problem.
+       Currently acceptes csv, tsv and json file formats."""
     if path is None and input is None:
-        print("Error! Must add an option!")
+        print("Error! Please add an option!")
         exit(1)
 
     if path is not None:
