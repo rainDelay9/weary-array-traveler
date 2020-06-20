@@ -1,6 +1,6 @@
 import re
 import json
-from stack import Stack
+from weary.stack import Stack
 
 
 def parse_uint(s):
