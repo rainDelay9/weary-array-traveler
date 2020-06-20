@@ -16,6 +16,7 @@ setup(
         'pytest==5.4.3',
         'six==1.15.0',
         'wcwidth==0.2.4',
+        'weary'
     ],
     entry_points='''
         [console_scripts]
