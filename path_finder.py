@@ -1,4 +1,4 @@
-from .weary import WearyGraph
+from weary import WearyGraph
 import click
 
 
