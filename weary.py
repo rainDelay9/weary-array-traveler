@@ -60,9 +60,11 @@ class WearyGraph:
         size = len(self.graph)
         if size <= 1:
             return True
+
         stack = Stack()
         visited = set()
         stack.push(0)
+
         while len(stack) != 0:
             location = stack.pop()
             visited.add(location)
@@ -70,15 +72,16 @@ class WearyGraph:
 
             forward = location + step
             backward = location - step
-            # can we reach the end?
+
+            # will we reach the end if we move forward?
             if forward == size - 1:
                 return True
 
-            # push backward coordinate if in bounds
+            # scan backward coordinate if in bounds
             if backward > 0 and backward not in visited:
                 stack.push(backward)
 
-            # push forward coordinate if in bounds
+            # scan forward coordinate if in bounds
             if forward < size - 1 and forward not in visited:
                 stack.push(forward)
 

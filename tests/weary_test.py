@@ -45,6 +45,9 @@ def test_bad_graph():
 def test_starts_with_zero():
     all_formats(false_path, "0, 1")
 
+def test_only_zero():
+    all_formats(true_path, "0")
+
 
 def test_empty_string():
     all_formats(true_path, "")
@@ -84,3 +87,10 @@ def test_throws_end_with_delim():
 
 def test_throws_negative_number():
     all_throws("1,-2")
+
+def test_throws_nan():
+    all_throws("1, a")
+
+def test_throws_no_delim():
+    all_throws("1 a")
+
