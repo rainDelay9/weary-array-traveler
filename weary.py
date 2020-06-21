@@ -1,6 +1,20 @@
 import re
 import json
 from collections import deque
+from enum import Enum
+
+
+class FileType(Enum):
+    CSV = 'CSV'
+    TSV = 'TSV'
+    JSON = 'JSON'
+
+
+FileTypes = {
+    'CSV': FileType.CSV,
+    'TSV': FileType.TSV,
+    'JSON': FileType.JSON
+}
 
 
 def parse_uint(s):
@@ -16,37 +30,34 @@ def parse_xsv(s, delim):
     return [parse_uint(x) for x in s.split(delim)]
 
 
-def construct_list_regex(start, delim, end):
-    # regex represents a delim-separated list with numbers (and spaces)
-    return r"^" + start + "(\s*(\d+)\s*(" + delim + "\s*\d+\s*)*)?" + end + "$"
+def parse_csv(s):
+    return parse_xsv(s, ',')
 
 
-TSV_REGEX = construct_list_regex("", "\t", "")
-CSV_REGEX = construct_list_regex("", ",", "")
-JSON_REGEX = construct_list_regex("\[", ",", "\]")
+def parse_tsv(s):
+    return parse_xsv(s, '\t')
 
 
-def parse_to_graph(s):
+def parse_json(s):
+    parsed = json.loads(s)
+    if not all(isinstance(x, int) and x >= 0 for x in parsed):
+        raise ValueError
+    return parsed
 
-    graph = None
 
-    rx = re.compile('([\n\r])')
-    stripped = rx.sub('', s)
+parsers = {FileType.CSV: parse_csv,
+           FileType.TSV: parse_tsv,
+           FileType.JSON: parse_json}
 
-    if re.search(TSV_REGEX, stripped) is not None:
-        graph = parse_xsv(stripped, '\t')
-    elif re.search(CSV_REGEX, stripped) is not None:
-        graph = parse_xsv(stripped, ',')
-    elif re.search(JSON_REGEX, stripped) is not None:
-        graph = json.loads(stripped)
 
-    return graph
+def parse_to_graph(s, file_type):
+    return parsers[file_type](s)
 
 
 class WearyGraph:
-    def __init__(self, arr_str):
+    def __init__(self, arr_str, file_type):
 
-        self.graph = parse_to_graph(arr_str)
+        self.graph = parse_to_graph(arr_str, file_type)
 
         if self.graph is None:
             raise ValueError

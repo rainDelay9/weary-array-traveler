@@ -1,18 +1,18 @@
 import pytest
-from weary import WearyGraph
+from weary import WearyGraph, FileType
 
 
 ######################################################
 ###################### UTILS #########################
 ######################################################
 
-def true_path(s):
-    graph = WearyGraph(s)
+def true_path(s, file_type):
+    graph = WearyGraph(s, file_type)
     assert graph.has_path()
 
 
-def false_path(s):
-    graph = WearyGraph(s)
+def false_path(s, file_type):
+    graph = WearyGraph(s, file_type)
     assert not graph.has_path()
 
 
@@ -25,9 +25,9 @@ def to_tsv(s):
 
 
 def all_formats(test, s):
-    test(s)
-    test(to_tsv(s))
-    test(to_json_str(s))
+    test(s, FileType.CSV)
+    test(to_tsv(s), FileType.TSV)
+    test(to_json_str(s), FileType.JSON)
 
 
 ######################################################
@@ -53,10 +53,10 @@ def test_only_zero():
 # JSON format does not allow leading zeros
 def test_leading_zeros():
     s = "1,01,10"
-    true_path(s)
-    true_path(to_tsv(s))
+    true_path(s, FileType.CSV)
+    true_path(to_tsv(s), FileType.TSV)
     with pytest.raises(ValueError):
-        WearyGraph(to_json_str(s))
+        WearyGraph(to_json_str(s), FileType.JSON)
 
 
 def test_empty_string():
@@ -80,11 +80,11 @@ def test_huge_number():
 
 def all_throws(s):
     with pytest.raises(ValueError):
-        WearyGraph(s)
+        WearyGraph(s, FileType.CSV)
     with pytest.raises(ValueError):
-        WearyGraph(to_tsv(s))
+        WearyGraph(to_tsv(s), FileType.TSV)
     with pytest.raises(ValueError):
-        WearyGraph(to_json_str(s))
+        WearyGraph(to_json_str(s), FileType.JSON)
 
 
 def test_throws_two_delims():

@@ -1,5 +1,5 @@
-from weary import WearyGraph
 import click
+from weary import WearyGraph, FileTypes
 
 
 @click.command()
@@ -28,7 +28,7 @@ def find_path(path, arr, input_format):
         data = arr
 
     try:
-        graph = WearyGraph(data)
+        graph = WearyGraph(data, FileTypes[input_format.upper()])
         print("Input: ", graph)
     except ValueError:
         print("Formatting Error! Please check input data! Exiting...")
