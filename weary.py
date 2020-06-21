@@ -63,6 +63,8 @@ class WearyGraph:
             raise ValueError
 
     def __str__(self):
+        if(len(self.graph) > 20):
+            return ("%s" % self.graph[:20])[:-1] + "...]"
         return "%s" % self.graph
 
     def __repr__(self):
