@@ -6,33 +6,38 @@ from path_finder import find_path
 
 def test_true_file_exists():
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--file', 'examples/true.json'])
+    result = runner.invoke(find_path, ['--file', 'examples/true.json', '--type', 'json'])
     assert 'Path exists!' in result.output
     assert result.exit_code == 0
+
 
 def test_true_string():
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--arr', '4, 4, 1, 1, 2, 2, 1000, 1'])
+    result = runner.invoke(find_path, ['--arr', '4, 4, 1, 1, 2, 2, 1000, 1 ', '--type', 'csv'])
     assert 'Path exists!' in result.output
     assert result.exit_code == 0
 
+
 def test_false_file_exists():
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--file', 'examples/false.json'])
+    result = runner.invoke(find_path, ['--file', 'examples/false.json', '--type', 'json'])
     assert 'Path does not exist!' in result.output
     assert result.exit_code == 0
+
 
 def test_false_string():
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--arr', '4, 2, 1, 3, 2, 2, 1000, 1'])
+    result = runner.invoke(find_path, ['--arr', '4, 2, 1, 3, 2, 2, 1000, 1', '--type', 'csv'])
     assert 'Path does not exist!' in result.output
     assert result.exit_code == 0
 
+
 def test_file_not_exist():
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--file', 'dfsdfsfdsldjflskjdflksdjflskjdflsjdflsj.txt'])
+    result = runner.invoke(find_path, ['--file', 'dfsdfsfdsldjflskjdflksdjflskjdflsjdflsj.txt', '--type', 'csv'])
     assert 'Error! File does not exist!' in result.output
     assert result.exit_code == 1
+
 
 def test_unreadable_file():
     path = "unreadable-file-for-testing-only"
@@ -40,19 +45,21 @@ def test_unreadable_file():
     f.close()
     os.chmod(path, stat.S_IWUSR)
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--file', path])
+    result = runner.invoke(find_path, ['--file', path, '--type', 'csv'])
     assert 'Error! Cannot read file!' in result.output
     assert result.exit_code == 1
     os.remove(path)
 
+
 def test_no_options_provided():
     runner = CliRunner()
-    result = runner.invoke(find_path, [])
+    result = runner.invoke(find_path, ['--type', 'csv'])
     assert 'Error! Please add an option!' in result.output
     assert result.exit_code == 1
 
+
 def test_formatting_error():
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--arr', '4, a4, 1, 1, 2, 2, 1000, 1'])
+    result = runner.invoke(find_path, ['--arr', '4, a4, 1, 1, 2, 2, 1000, 1', '--type', 'csv'])
     assert 'Formatting Error' in result.output
     assert result.exit_code == 1

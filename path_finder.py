@@ -3,9 +3,11 @@ import click
 
 
 @click.command()
+@click.option('-t', '--type', 'input_format', type=click.Choice(['CSV', 'TSV', 'JSON'], case_sensitive=False),
+              required=True, help='input format')
 @click.option('-f', '--file', 'path', type=str, help='input file (takes precedence over input string)')
 @click.option('-a', '--arr', 'arr', type=str, help='input string')
-def find_path(path, arr):
+def find_path(path, arr, input_format):
     """This script checks whether there's a path from start to finish in a weary array traveler problem.
        Currently acceptes csv, tsv and json file formats."""
     if path is None and arr is None:
@@ -32,7 +34,7 @@ def find_path(path, arr):
         print("Formatting Error! Please check input data! Exiting...")
         exit(1)
 
-    print("Result: " + ("Path exists!" if graph.has_path() else "Path does not exist!"))
+    print("Result: ", ("Path exists!" if graph.has_path() else "Path does not exist!"))
 
 
 if __name__ == '__main__':
