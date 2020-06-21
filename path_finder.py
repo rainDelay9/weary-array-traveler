@@ -1,5 +1,6 @@
 import click
-from weary import WearyGraph, FileTypes
+from parsers import FileTypes
+from weary import WearyGraph
 
 
 @click.command()

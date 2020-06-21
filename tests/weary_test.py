@@ -1,5 +1,6 @@
 import pytest
-from weary import WearyGraph, FileType
+from weary import WearyGraph
+from parsers import FileType
 
 
 ######################################################
