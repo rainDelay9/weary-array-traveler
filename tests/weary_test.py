@@ -8,12 +8,12 @@ from weary import WearyGraph
 
 def true_path(s):
     graph = WearyGraph(s)
-    assert graph.has_path() is True
+    assert graph.has_path()
 
 
 def false_path(s):
     graph = WearyGraph(s)
-    assert graph.has_path() is False
+    assert not graph.has_path()
 
 
 def to_json_str(s):

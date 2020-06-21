@@ -12,7 +12,7 @@ def test_true_file_exists():
 
 def test_true_string():
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--input', '4, 4, 1, 1, 2, 2, 1000, 1'])
+    result = runner.invoke(find_path, ['--arr', '4, 4, 1, 1, 2, 2, 1000, 1'])
     assert 'Path exists!' in result.output
     assert result.exit_code == 0
 
@@ -24,7 +24,7 @@ def test_false_file_exists():
 
 def test_false_string():
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--input', '4, 2, 1, 3, 2, 2, 1000, 1'])
+    result = runner.invoke(find_path, ['--arr', '4, 2, 1, 3, 2, 2, 1000, 1'])
     assert 'Path does not exist!' in result.output
     assert result.exit_code == 0
 
@@ -53,6 +53,6 @@ def test_no_options_provided():
 
 def test_formatting_error():
     runner = CliRunner()
-    result = runner.invoke(find_path, ['--input', '4, a4, 1, 1, 2, 2, 1000, 1'])
+    result = runner.invoke(find_path, ['--arr', '4, a4, 1, 1, 2, 2, 1000, 1'])
     assert 'Formatting Error' in result.output
     assert result.exit_code == 1

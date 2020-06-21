@@ -1,6 +1,6 @@
 import re
 import json
-from stack import Stack
+from collections import deque
 
 
 def parse_uint(s):
@@ -11,7 +11,7 @@ def parse_uint(s):
 
 
 def parse_xsv(s, delim):
-    if len(s) == 0:
+    if not s:
         return []
     return [parse_uint(x) for x in s.split(delim)]
 
@@ -62,9 +62,9 @@ class WearyGraph:
         if size <= 1:
             return True
 
-        stack = Stack()
+        stack = deque()
         visited = set()
-        stack.push(0)
+        stack.append(0)
 
         while len(stack) != 0:
             location = stack.pop()
@@ -79,10 +79,10 @@ class WearyGraph:
 
             # scan backward coordinate if in bounds
             if backward > 0 and backward not in visited:
-                stack.push(backward)
+                stack.append(backward)
 
             # scan forward coordinate if in bounds
             if forward < size - 1 and forward not in visited:
-                stack.push(forward)
+                stack.append(forward)
 
         return False
