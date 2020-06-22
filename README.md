@@ -34,6 +34,8 @@ Options:
 
 ## Execution examples
 
+There are some execution examples. For stress testing (arrays with ~8000 elements) see examples/superlong_true.csv and examples/superlong_false.csv.
+
 ```bash
 > weary --type csv --file examples/true.csv
 Input:  [4, 4, 1, 1, 2, 2, 1000, 1]
